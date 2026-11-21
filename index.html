@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Rasmus Isak Kernen</title>
+  <meta name="description" content="Rasmus Isak Kernen – building in digital marketing, vending and sports nutrition. Örebro, Sweden.">
+  <meta name="theme-color" content="#101213">
+  <link rel="icon" href="assets/rasmus-kernen.jpg">
+  <link rel="preconnect" href="https://images.unsplash.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    /* Kernen Digital brand framework: se context/kernen-digital-brand.md */
+    :root {
+      --graphite: #101213;
+      --snow: #f4f4f2;
+      --snow-70: rgba(244, 244, 242, 0.72);
+      --hairline: rgba(244, 244, 242, 0.24);
+      --ember: #c8743a;
+      --gutter: clamp(16px, 4vw, 56px);
+      --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;              /* Ingen scroll, på något format */
+      overscroll-behavior: none;
+    }
+
+    body {
+      position: fixed;
+      inset: 0;
+      height: 100vh;
+      height: 100dvh;
+      font-family: "Inter Tight", system-ui, -apple-system, "Segoe UI", sans-serif;
+      color: var(--snow);
+      background: var(--graphite);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Bakgrund */
+    .bg {
+      position: fixed;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      filter: saturate(0.82);
+      opacity: 0;
+      transform: scale(1.03);
+      transition: opacity 1.2s var(--ease), transform 2.4s var(--ease);
+      z-index: -2;
+    }
+    .bg.loaded { opacity: 1; transform: scale(1); }
+
+    .shade {
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(180deg, rgba(16,18,19,0.45) 0%, rgba(16,18,19,0) 22%),
+        linear-gradient(0deg, rgba(16,18,19,0.82) 0%, rgba(16,18,19,0.35) 45%, rgba(16,18,19,0) 70%);
+      z-index: -1;
+    }
+
+    /* Layout */
+    .page {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      padding:
+        max(var(--gutter), env(safe-area-inset-top))
+        var(--gutter)
+        max(calc(var(--gutter) * 0.75), env(safe-area-inset-bottom));
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .wordmark img {
+      display: block;
+      height: clamp(26px, 4.2vh, 38px);
+      width: auto;
+      filter: invert(1);              /* Svart logga blir vit, grått "AB" blir dämpat */
+    }
+
+    .label {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--snow-70);
+    }
+
+    main {
+      margin-top: auto;
+      display: grid;
+      gap: clamp(20px, 4vh, 44px);
+    }
+
+    .intro {
+      display: flex;
+      align-items: flex-end;
+      gap: clamp(16px, 2.4vw, 28px);
+    }
+
+    .portrait {
+      width: clamp(64px, 11vh, 104px);
+      height: clamp(64px, 11vh, 104px);
+      object-fit: cover;
+      flex-shrink: 0;
+      display: block;
+    }
+
+    h1 {
+      font-weight: 300;
+      font-size: min(clamp(32px, 6.4vh, 64px), 9vw);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .about {
+      margin-top: clamp(8px, 1.4vh, 14px);
+      font-size: clamp(14px, 1.9vh, 17px);
+      line-height: 1.5;
+      color: var(--snow-70);
+      max-width: 44ch;
+    }
+
+    /* Projekt */
+    .projects {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-top: 1px solid var(--hairline);
+    }
+
+    .projects li + li { border-left: 1px solid var(--hairline); }
+
+    .projects a {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: clamp(14px, 2.4vh, 24px);
+      height: 100%;
+      padding: clamp(14px, 2.4vh, 24px) clamp(14px, 1.8vw, 24px) 0;
+      color: var(--snow);
+      text-decoration: none;
+    }
+    .projects li:first-child a { padding-left: 0; }
+
+    .projects .logo {
+      height: clamp(18px, 2.8vh, 26px);
+      display: flex;
+      align-items: center;
+    }
+    .projects .logo img {
+      max-height: 100%;
+      max-width: 100%;
+      width: auto;
+      filter: brightness(0) invert(1);
+      opacity: 0.92;
+      transition: opacity 0.4s var(--ease);
+    }
+
+    .projects .meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .arrow {
+      display: inline-block;
+      transition: transform 0.4s var(--ease), color 0.4s var(--ease);
+    }
+
+    .projects a:hover .arrow,
+    .projects a:focus-visible .arrow,
+    .contact:hover .arrow,
+    .contact:focus-visible .arrow { transform: translateX(4px); color: var(--ember); }
+    .projects a:hover .logo img { opacity: 1; }
+    a:focus-visible { outline: 1px solid var(--ember); outline-offset: 4px; }
+
+    footer {
+      margin-top: clamp(18px, 3.4vh, 36px);
+      padding-top: clamp(12px, 2vh, 18px);
+      border-top: 1px solid var(--hairline);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px clamp(20px, 3vw, 36px);
+    }
+
+    .contact {
+      color: var(--snow);
+      text-decoration: none;
+      font-size: clamp(14px, 1.9vh, 16px);
+      display: inline-flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    /* Mobil: projekten som rader */
+    @media (max-width: 720px) {
+      .intro { flex-direction: column; align-items: flex-start; }
+      .projects { grid-template-columns: 1fr; }
+      .projects li + li { border-left: 0; border-top: 1px solid var(--hairline); }
+      .projects a {
+        flex-direction: row;
+        align-items: center;
+        padding: clamp(12px, 2vh, 16px) 0;
+      }
+      .projects li:last-child a { padding-bottom: 0; }
+      .projects .logo { width: 44%; }
+      .projects .meta { flex: 1; justify-content: flex-end; gap: 14px; }
+      .footer-legal { display: none; }
+    }
+
+    @media (max-width: 360px) {
+      .projects .meta .label { display: none; }
+    }
+
+    /* Låga skärmar, t.ex. mobil i liggande läge */
+    @media (max-height: 520px) {
+      .about { display: none; }
+      main { gap: 14px; }
+      footer { margin-top: 12px; padding-top: 10px; }
+      .projects a { padding-top: 10px; padding-bottom: 0; gap: 10px; }
+    }
+    @media (max-height: 520px) and (max-width: 720px) {
+      .projects a { padding: 8px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg" id="bg" aria-hidden="true"></div>
+  <div class="shade" aria-hidden="true"></div>
+
+  <div class="page">
+    <header>
+      <a class="wordmark" href="/" aria-label="Kernen Digital">
+        <img src="assets/logo-kernen-digital.png" alt="Kernen Digital">
+      </a>
+      <span class="label">Örebro, Sweden</span>
+    </header>
+
+    <main>
+      <section class="intro">
+        <img class="portrait" src="assets/rasmus-kernen.jpg" alt="Rasmus Isak Kernen">
+        <div>
+          <h1>Rasmus Isak Kernen</h1>
+          <p class="about">Building in digital marketing, vending and sports nutrition.</p>
+        </div>
+      </section>
+
+      <ul class="projects">
+        <li>
+          <a href="https://nordiseo.com" target="_blank" rel="noopener">
+            <span class="logo"><img src="assets/logo-nordiseo.png" alt="Nordiseo"></span>
+            <span class="meta"><span class="label">Digital marketing</span><span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        </li>
+        <li>
+          <a href="https://kernberg.se" target="_blank" rel="noopener">
+            <span class="logo"><img src="assets/logo-kernberg.png" alt="Kernberg Coffee &amp; Vending"></span>
+            <span class="meta"><span class="label">Coffee &amp; vending</span><span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        </li>
+        <li>
+          <a href="https://goenkelt.com" target="_blank" rel="noopener">
+            <span class="logo"><img src="assets/logo-enkelt.png" alt="ENKELT Nutrition"></span>
+            <span class="meta"><span class="label">Sports nutrition</span><span class="arrow" aria-hidden="true">→</span></span>
+          </a>
+        </li>
+      </ul>
+    </main>
+
+    <footer>
+      <div class="links">
+        <a class="contact" href="mailto:rasmus@kernen.io">rasmus@kernen.io <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="contact" href="https://www.linkedin.com/in/rasmus-isak-kernen/" target="_blank" rel="noopener">LinkedIn <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+      <span class="label footer-legal">Kernen Digital AB</span>
+    </footer>
+  </div>
+
+  <script>
+    // Slumpad naturbild från Unsplash (fri licens) vid varje besök
+    (function () {
+      // Bara nordiska motiv: fjordar, snöskog, sjö och skog
+      var ids = [
+        "1698307781486-7c63dadf5fb7",
+        "1505731324189-3d0afbeafcbf",
+        "1721463890748-87863c8f37a7",
+        "1669696688454-ef99d2e18327",
+        "1545586860-95d2040c1680",
+        "1709387957623-861ad9ade369",
+        "1668471793643-ddeaec35eec1",
+        "1653820611133-ed4101a5097b",
+        "1508500709478-37a0e8d6603c",
+        "1665064914191-6512af753429",
+        "1634289533815-213b35152951",
+        "1782676574448-422b30e4f4df"
+      ];
+      var id = ids[Math.floor(Math.random() * ids.length)];
+      var w = Math.min(2400, Math.round(Math.max(screen.width, screen.height) * (window.devicePixelRatio || 1)));
+      var url = "https://images.unsplash.com/photo-" + id + "?auto=format&fit=crop&w=" + w + "&q=75";
+      var img = new Image();
+      img.onload = function () {
+        var bg = document.getElementById("bg");
+        bg.style.backgroundImage = "url('" + url + "')";
+        bg.classList.add("loaded");
+      };
+      img.src = url;
+    })();
+  </script>
+</body>
+</html>
